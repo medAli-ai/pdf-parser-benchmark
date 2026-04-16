@@ -1,0 +1,79 @@
+[project]
+name = "pdf-parser-benchmark"
+version = "0.1.0"
+description = "Benchmarking PDF parsers for RAG pipelines — OCP Java 17 Study Guide test corpus"
+requires-python = ">=3.12"
+
+# Core dependencies: always installed.
+# These are needed regardless of which parsers you enable.
+dependencies = [
+    "jupyter>=1.1",
+    "ipykernel>=6.29",
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "matplotlib>=3.9",
+    "seaborn>=0.13",
+    "scikit-learn>=1.5",
+    "sentence-transformers>=3.0",
+    "qdrant-client>=1.11",
+    "rouge-score>=0.1.2",
+    "tqdm>=4.66",
+    "rich>=13.7",
+    "python-dotenv>=1.0",
+    "chonkie[semantic]>=0.4",
+    "langchain-text-splitters>=0.3",
+]
+
+[project.optional-dependencies]
+# Fast parsers: no model weights, installs in seconds.
+# Good entry point for readers who want to run quickly.
+parsers = [
+    "pymupdf>=1.24",
+    "pdfplumber>=0.11",
+    "openparse>=0.5",
+]
+
+# Heavy parsers: pull large model weights, CUDA-aware.
+# Expect 5-15 minutes on first install + model download.
+heavy = [
+    "docling>=2.5",
+    "marker-pdf>=0.3",
+    "unstructured[pdf]>=0.15",
+]
+
+# Cloud parsers: require an API key (see .env.example).
+cloud = [
+    "llama-parse>=0.4",
+]
+
+# Install everything (used for the full benchmark run).
+all = [
+    "pdf-parser-benchmark[parsers]",
+    "pdf-parser-benchmark[heavy]",
+    "pdf-parser-benchmark[cloud]",
+]
+
+# ── PyTorch CUDA routing ───────────────────────────────────────────────────
+# uv resolves torch from the PyTorch CUDA index on Linux (your RTX 3060 setup).
+# On macOS or CPU-only Linux, remove the marker and uv will fall back to
+# the standard PyPI CPU wheel automatically.
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cu121", marker = "sys_platform == 'linux'" },
+]
+torchvision = [
+    { index = "pytorch-cu121", marker = "sys_platform == 'linux'" },
+]
+
+[[tool.uv.index]]
+name = "pytorch-cu121"
+url = "https://download.pytorch.org/whl/cu121"
+explicit = true   # only used for packages that explicitly reference this index
+
+# ── Ruff (linting, consistent with your other projects) ───────────────────
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]   # pycodestyle + pyflakes + isort

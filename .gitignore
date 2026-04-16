@@ -1,0 +1,37 @@
+# Virtual environment (uv-managed)
+.venv/
+
+# Jupyter
+.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/
+
+# Benchmark artifacts — too large/ephemeral for version control
+benchmark_cache/
+benchmark_results/
+# But keep the placeholder so the directory structure is visible
+!benchmark_cache/.gitkeep
+!benchmark_results/.gitkeep
+
+# PDF corpus — redistribute is legally grey for a copyrighted textbook
+data/*.pdf
+data/*.epub
+# Keep the placeholder
+!data/.gitkeep
+
+# LiteParse Node runner deps
+liteparse_runner/node_modules/
+liteparse_runner/package-lock.json
+liteparse_runner/package.json
+
+# Environment / secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
