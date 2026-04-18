@@ -31,6 +31,7 @@ parsers = [
     "pymupdf>=1.24",
     "pdfplumber>=0.11",
     "openparse>=0.5",
+    "liteparse>=0.1"
 ]
 
 # Heavy parsers: pull large model weights, CUDA-aware.
