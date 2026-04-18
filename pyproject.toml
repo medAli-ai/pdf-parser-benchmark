@@ -22,6 +22,7 @@ dependencies = [
     "python-dotenv>=1.0",
     "chonkie[semantic]>=0.4",
     "langchain-text-splitters>=0.3",
+    "nltk>=3.9.4",
 ]
 
 [project.optional-dependencies]
